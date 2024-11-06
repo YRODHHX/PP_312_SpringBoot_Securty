@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit panel</title>
+</head>
+<body>
+<header>
+    <h3>Edit panel</h3>
+</header>
+<main>
+    <table>
+        <thead>
+        <tr>
+            <th>name</th>
+            <th>password</th>
+            <th>role</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:utext="${user.getUsername()}"></td>
+            <td th:utext="${user.getPassword()}"></td>
+            <td th:each="role : ${user.getRoles()}" th:text="${role.getRoleName()}"></td>
+            <td>
+                <a th:href="@{/admin/edit_panel/{id}(id=${user.getId()})}">
+                    <button type="button">edit</button>
+                </a>
+            </td>
+            <td>
+                <form method="post" th:action="@{/admin/delete_user/{id}(id=${user.getId()})}">
+                    <button type="submit">delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+<footer>
+    <form th:action="@{/admin/new_user}" method="get">
+        <button type="submit">add user</button>
+    </form>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">logout</button>
+    </form>
+</footer>
+</body>
+</html>
