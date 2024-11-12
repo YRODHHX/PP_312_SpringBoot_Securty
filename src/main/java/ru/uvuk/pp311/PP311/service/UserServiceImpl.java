@@ -41,12 +41,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             User existingUser = userRepository.findById(user.getId())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-            if (!passwordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
+            if (!user.getPassword().equals(existingUser.getPassword())) {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
             } else {
                 user.setPassword(existingUser.getPassword());
             }
-
             if (user.getRoles() == null || user.getRoles().isEmpty()) {
                 user.setRoles(existingUser.getRoles());
             }

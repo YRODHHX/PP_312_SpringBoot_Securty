@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.uvuk.pp311.PP311.service.UserService;
 
+import java.security.Principal;
+
 
 @Controller
 @RequestMapping("/user")
@@ -18,9 +20,10 @@ public class UserController {
     }
 
     @GetMapping
-    public String userProfile(Authentication authentication, Model model) {
-        String username = authentication.getName();
+    public String userProfile(Principal principal, Model model) {
+        String username = principal.getName();
         model.addAttribute("user", userService.findUserByUsername(username));
+        model.addAttribute("role",userService.findUserByUsername(username).getRoles());
         return "user/profile";
     }
 
